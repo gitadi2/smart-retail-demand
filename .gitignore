@@ -1,0 +1,43 @@
+# Environment
+.env
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Data files (too large for git)
+data/raw/*.csv
+data/processed/*.csv
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Models
+models/*.keras
+models/*.pkl
+models/*.json
+!models/.gitkeep
+
+# MLflow
+mlruns/
+
+# Reports
+reports/figures/*.png
+!reports/figures/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Jupyter
+.ipynb_checkpoints/
+
+# MATLAB
+*.mat
+*.fig
+matlab_output/*.csv

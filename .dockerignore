@@ -1,0 +1,13 @@
+__pycache__
+*.pyc
+*.pyo
+.git
+.gitignore
+mlruns/
+reports/
+screenshots/
+benchmarks/
+tests/
+*.md
+.env
+.vscode/
