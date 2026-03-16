@@ -1,0 +1,48 @@
+{
+  "LSTM": {
+    "mae": 6.9421,
+    "rmse": 9.2088,
+    "r2": 0.2218,
+    "mape": 105.11,
+    "train_time_sec": 1470.83,
+    "epochs_trained": 10
+  },
+  "BiGRU": {
+    "mae": 7.0119,
+    "rmse": 9.144,
+    "r2": 0.2327,
+    "mape": 110.69,
+    "train_time_sec": 588.18,
+    "epochs_trained": 10
+  },
+  "CNN_LSTM": {
+    "mae": 7.25,
+    "rmse": 9.3508,
+    "r2": 0.1976,
+    "mape": 118.7,
+    "train_time_sec": 158.09,
+    "epochs_trained": 10
+  },
+  "Attention": {
+    "mae": 7.1805,
+    "rmse": 9.355,
+    "r2": 0.1969,
+    "mape": 113.87,
+    "train_time_sec": 641.71,
+    "epochs_trained": 10
+  },
+  "XGBoost": {
+    "mae": 0.2286,
+    "rmse": 0.4379,
+    "r2": 0.9982,
+    "mape": 2.09,
+    "train_time_sec": 7.09
+  },
+  "LightGBM": {
+    "mae": 0.3337,
+    "rmse": 0.5087,
+    "r2": 0.9976,
+    "mape": 3.7,
+    "train_time_sec": 6.19
+  }
+}

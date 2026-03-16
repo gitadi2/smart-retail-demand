@@ -5,24 +5,12 @@ venv/
 __pycache__/
 *.pyc
 
-# Data files (too large for git)
-data/raw/*.csv
-data/processed/*.csv
-!data/raw/.gitkeep
-!data/processed/.gitkeep
-
-# Models
-models/*.keras
-models/*.pkl
-models/*.json
-!models/.gitkeep
+# Large processed files (>100MB, stored on AWS S3)
+data/processed/dashboard_data.csv
+data/processed/features_encoded.csv
 
 # MLflow
 mlruns/
-
-# Reports
-reports/figures/*.png
-!reports/figures/.gitkeep
 
 # IDE
 .vscode/

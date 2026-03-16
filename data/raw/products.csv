@@ -1,0 +1,501 @@
+product_id,category,sub_category,base_price,cost_price,is_perishable
+P0001,Beverages,Soda,17.5,8.98,0
+P0002,Electronics,Batteries,10.67,5.78,0
+P0003,Groceries,Flour,2.62,1.31,1
+P0004,Groceries,Oil,11.93,7.32,1
+P0005,Dairy,Butter,10.44,4.71,1
+P0006,Toys,Dolls,15.51,6.64,0
+P0007,Electronics,Chargers,21.81,12.31,0
+P0008,Dairy,Yogurt,7.42,5.09,1
+P0009,Groceries,Rice,5.52,2.29,1
+P0010,Snacks,Nuts,7.74,4.93,0
+P0011,Beverages,Soda,3.52,2.2,0
+P0012,Snacks,Chips,12.87,8.26,0
+P0013,Household,Cleaner,17.91,11.77,0
+P0014,Dairy,Cheese,25.56,12.53,1
+P0015,Toys,Board Games,3.1,2.32,0
+P0016,Frozen,Seafood,13.4,9.5,1
+P0017,Household,Detergent,26.36,18.36,0
+P0018,Snacks,Chips,5.2,3.25,0
+P0019,Groceries,Spices,14.6,5.89,1
+P0020,Clothing,Caps,24.0,17.78,0
+P0021,Dairy,Cheese,1.22,0.91,1
+P0022,Snacks,Chips,6.41,2.6,0
+P0023,Frozen,Meals,35.68,23.28,1
+P0024,Groceries,Spices,6.77,3.91,1
+P0025,Personal Care,Deodorant,25.24,13.93,0
+P0026,Frozen,Ice Cream,11.9,7.16,1
+P0027,Groceries,Pulses,12.14,7.29,1
+P0028,Groceries,Rice,3.47,2.6,1
+P0029,Frozen,Vegetables,19.78,11.87,1
+P0030,Groceries,Spices,2.57,1.29,1
+P0031,Frozen,Ice Cream,5.81,3.46,1
+P0032,Personal Care,Soap,8.08,5.86,0
+P0033,Electronics,Cables,12.76,9.02,0
+P0034,Groceries,Rice,4.88,2.19,1
+P0035,Personal Care,Deodorant,7.15,3.5,0
+P0036,Electronics,Adapters,3.15,1.35,0
+P0037,Household,Detergent,4.73,2.01,0
+P0038,Beverages,Tea,18.1,10.91,0
+P0039,Household,Trash Bags,77.61,38.83,0
+P0040,Toys,Puzzles,2.74,1.13,0
+P0041,Snacks,Cookies,8.35,3.71,0
+P0042,Groceries,Pulses,29.11,14.41,1
+P0043,Frozen,Meals,8.91,4.85,1
+P0044,Beverages,Tea,17.3,7.72,0
+P0045,Dairy,Butter,4.28,2.83,1
+P0046,Toys,Cars,2.48,1.15,0
+P0047,Household,Detergent,9.07,6.53,0
+P0048,Dairy,Milk,13.82,8.72,1
+P0049,Frozen,Ice Cream,66.53,36.38,1
+P0050,Toys,Action Figures,27.83,18.51,0
+P0051,Clothing,Scarves,10.08,4.38,0
+P0052,Frozen,Meals,54.47,25.09,1
+P0053,Frozen,Pizza,41.87,17.41,1
+P0054,Toys,Puzzles,35.11,25.51,0
+P0055,Groceries,Pulses,26.53,19.38,1
+P0056,Dairy,Milk,41.91,29.48,1
+P0057,Snacks,Nuts,43.33,24.28,0
+P0058,Beverages,Water,4.53,3.3,0
+P0059,Beverages,Juice,15.25,6.48,0
+P0060,Electronics,Adapters,7.4,5.15,0
+P0061,Toys,Puzzles,11.91,7.65,0
+P0062,Dairy,Cream,3.09,2.25,1
+P0063,Electronics,Bulbs,17.44,10.32,0
+P0064,Frozen,Ice Cream,11.44,6.85,1
+P0065,Beverages,Juice,7.45,3.63,0
+P0066,Electronics,Adapters,16.55,8.0,0
+P0067,Household,Sponges,6.11,3.25,0
+P0068,Groceries,Spices,22.93,15.8,1
+P0069,Personal Care,Deodorant,10.06,4.06,0
+P0070,Clothing,Caps,24.12,10.42,0
+P0071,Household,Paper Towels,56.25,31.33,0
+P0072,Beverages,Tea,28.56,14.71,0
+P0073,Frozen,Meals,51.98,38.41,1
+P0074,Clothing,Socks,16.84,11.67,0
+P0075,Groceries,Pulses,9.91,4.74,1
+P0076,Clothing,Socks,31.4,22.36,0
+P0077,Dairy,Cream,3.44,2.08,1
+P0078,Groceries,Spices,12.98,6.27,1
+P0079,Household,Detergent,3.02,1.96,0
+P0080,Beverages,Coffee,28.66,15.26,0
+P0081,Household,Trash Bags,6.47,3.57,0
+P0082,Dairy,Butter,4.77,2.86,1
+P0083,Snacks,Nuts,20.45,13.51,0
+P0084,Beverages,Coffee,18.71,9.04,0
+P0085,Clothing,Gloves,21.16,10.12,0
+P0086,Personal Care,Soap,8.84,3.57,0
+P0087,Frozen,Seafood,17.79,10.37,1
+P0088,Clothing,T-Shirts,12.72,8.19,0
+P0089,Groceries,Pulses,5.94,3.91,1
+P0090,Toys,Dolls,41.29,18.06,0
+P0091,Frozen,Pizza,10.74,5.62,1
+P0092,Dairy,Butter,4.12,1.76,1
+P0093,Clothing,Gloves,2.64,1.81,0
+P0094,Beverages,Coffee,16.28,11.87,0
+P0095,Beverages,Coffee,4.24,3.08,0
+P0096,Dairy,Yogurt,52.73,21.93,1
+P0097,Household,Detergent,11.17,8.32,0
+P0098,Frozen,Pizza,41.33,22.04,1
+P0099,Personal Care,Lotion,15.19,8.57,0
+P0100,Beverages,Juice,15.23,6.16,0
+P0101,Household,Paper Towels,12.23,8.18,0
+P0102,Frozen,Pizza,12.65,8.82,1
+P0103,Groceries,Pulses,5.19,3.81,1
+P0104,Snacks,Chips,10.87,6.9,0
+P0105,Dairy,Butter,1.0,0.69,1
+P0106,Dairy,Butter,9.83,6.74,1
+P0107,Frozen,Vegetables,5.39,2.21,1
+P0108,Frozen,Seafood,9.82,6.13,1
+P0109,Beverages,Tea,12.72,7.92,0
+P0110,Beverages,Soda,14.77,7.71,0
+P0111,Personal Care,Shampoo,8.25,5.1,0
+P0112,Beverages,Juice,35.43,25.95,0
+P0113,Snacks,Cookies,12.04,5.9,0
+P0114,Electronics,Adapters,23.04,17.12,0
+P0115,Frozen,Pizza,29.91,14.48,1
+P0116,Beverages,Juice,3.85,2.16,0
+P0117,Personal Care,Toothpaste,8.08,5.77,0
+P0118,Beverages,Water,5.22,3.31,0
+P0119,Dairy,Cream,7.97,3.68,1
+P0120,Frozen,Ice Cream,6.46,3.79,1
+P0121,Toys,Puzzles,9.03,4.63,0
+P0122,Toys,Board Games,6.33,3.6,0
+P0123,Personal Care,Lotion,24.07,15.93,0
+P0124,Snacks,Cookies,7.42,4.94,0
+P0125,Electronics,Cables,24.07,17.17,0
+P0126,Dairy,Cheese,5.53,2.9,1
+P0127,Beverages,Juice,6.57,3.92,0
+P0128,Groceries,Flour,19.32,11.35,1
+P0129,Clothing,T-Shirts,9.21,4.83,0
+P0130,Clothing,Scarves,2.25,1.28,0
+P0131,Snacks,Cookies,64.56,38.58,0
+P0132,Toys,Board Games,37.07,19.21,0
+P0133,Snacks,Cookies,3.93,2.26,0
+P0134,Personal Care,Deodorant,19.62,14.26,0
+P0135,Frozen,Seafood,8.44,3.85,1
+P0136,Electronics,Batteries,7.38,3.16,0
+P0137,Beverages,Coffee,16.65,11.7,0
+P0138,Personal Care,Shampoo,11.38,6.51,0
+P0139,Personal Care,Lotion,19.16,11.25,0
+P0140,Toys,Action Figures,23.7,16.44,0
+P0141,Frozen,Pizza,6.62,3.82,1
+P0142,Groceries,Spices,2.88,1.27,1
+P0143,Toys,Cars,22.45,11.5,0
+P0144,Beverages,Juice,12.29,6.5,0
+P0145,Electronics,Cables,60.2,28.33,0
+P0146,Electronics,Cables,59.57,25.66,0
+P0147,Frozen,Ice Cream,18.61,10.52,1
+P0148,Household,Trash Bags,38.6,20.15,0
+P0149,Groceries,Pulses,16.39,11.94,1
+P0150,Beverages,Water,7.51,5.44,0
+P0151,Personal Care,Toothpaste,11.07,7.51,0
+P0152,Beverages,Coffee,13.34,6.21,0
+P0153,Beverages,Water,22.06,11.27,0
+P0154,Toys,Board Games,14.8,9.46,0
+P0155,Electronics,Chargers,21.46,11.88,0
+P0156,Groceries,Rice,71.29,37.38,1
+P0157,Household,Cleaner,24.88,15.39,0
+P0158,Beverages,Water,13.15,8.15,0
+P0159,Electronics,Cables,15.97,9.85,0
+P0160,Snacks,Crackers,8.74,5.91,0
+P0161,Personal Care,Shampoo,5.09,3.36,0
+P0162,Snacks,Cookies,6.34,4.23,0
+P0163,Toys,Board Games,13.06,6.96,0
+P0164,Electronics,Bulbs,5.71,3.08,0
+P0165,Electronics,Adapters,1.56,1.05,0
+P0166,Beverages,Water,8.95,5.35,0
+P0167,Toys,Action Figures,31.36,23.07,0
+P0168,Electronics,Cables,16.22,11.87,0
+P0169,Toys,Cars,24.39,14.82,0
+P0170,Snacks,Nuts,5.76,3.9,0
+P0171,Frozen,Pizza,7.52,3.19,1
+P0172,Beverages,Coffee,34.52,15.07,0
+P0173,Clothing,Caps,5.52,4.11,0
+P0174,Snacks,Chips,11.02,5.69,0
+P0175,Personal Care,Lotion,3.15,1.32,0
+P0176,Clothing,Socks,41.41,28.2,0
+P0177,Frozen,Pizza,5.42,3.19,1
+P0178,Personal Care,Soap,3.24,1.82,0
+P0179,Dairy,Yogurt,3.66,2.04,1
+P0180,Beverages,Juice,9.89,5.68,0
+P0181,Personal Care,Deodorant,10.13,6.11,0
+P0182,Personal Care,Soap,21.26,8.6,0
+P0183,Frozen,Ice Cream,9.82,4.22,1
+P0184,Electronics,Batteries,5.03,2.54,0
+P0185,Household,Trash Bags,14.27,6.73,0
+P0186,Groceries,Pulses,10.85,5.77,1
+P0187,Electronics,Chargers,37.0,20.51,0
+P0188,Dairy,Yogurt,1.45,0.66,1
+P0189,Groceries,Pulses,13.3,6.59,1
+P0190,Beverages,Soda,10.52,5.71,0
+P0191,Household,Paper Towels,32.39,15.83,0
+P0192,Household,Trash Bags,2.14,1.23,0
+P0193,Electronics,Batteries,8.01,5.03,0
+P0194,Electronics,Cables,18.02,12.29,0
+P0195,Electronics,Chargers,9.77,5.02,0
+P0196,Dairy,Cheese,5.23,2.25,1
+P0197,Household,Sponges,3.2,2.28,0
+P0198,Frozen,Meals,49.99,25.87,1
+P0199,Dairy,Yogurt,3.51,2.17,1
+P0200,Personal Care,Shampoo,19.78,10.93,0
+P0201,Beverages,Tea,13.92,10.37,0
+P0202,Household,Detergent,5.58,3.18,0
+P0203,Groceries,Rice,68.32,33.49,1
+P0204,Personal Care,Lotion,20.86,11.42,0
+P0205,Toys,Puzzles,15.45,9.87,0
+P0206,Personal Care,Soap,20.05,11.74,0
+P0207,Toys,Dolls,6.63,3.59,0
+P0208,Personal Care,Soap,12.15,7.92,0
+P0209,Frozen,Pizza,8.68,4.28,1
+P0210,Electronics,Cables,7.26,4.43,0
+P0211,Clothing,Scarves,2.79,1.62,0
+P0212,Dairy,Butter,4.38,3.22,1
+P0213,Groceries,Oil,13.71,5.81,1
+P0214,Electronics,Chargers,10.2,5.35,0
+P0215,Groceries,Oil,19.28,10.92,1
+P0216,Electronics,Adapters,3.0,1.71,0
+P0217,Toys,Dolls,4.55,3.16,0
+P0218,Groceries,Oil,13.68,8.33,1
+P0219,Dairy,Milk,9.19,3.92,1
+P0220,Groceries,Rice,14.79,8.48,1
+P0221,Electronics,Cables,6.44,2.75,0
+P0222,Beverages,Soda,11.47,5.0,0
+P0223,Frozen,Meals,20.72,12.07,1
+P0224,Electronics,Chargers,27.33,17.94,0
+P0225,Frozen,Ice Cream,34.09,23.77,1
+P0226,Clothing,Socks,28.5,16.28,0
+P0227,Toys,Board Games,17.18,7.96,0
+P0228,Frozen,Pizza,14.38,7.33,1
+P0229,Frozen,Ice Cream,10.44,5.72,1
+P0230,Dairy,Butter,10.77,7.49,1
+P0231,Dairy,Yogurt,3.96,1.75,1
+P0232,Dairy,Yogurt,18.19,11.71,1
+P0233,Electronics,Cables,9.89,5.05,0
+P0234,Groceries,Spices,13.57,9.18,1
+P0235,Clothing,Scarves,24.39,15.01,0
+P0236,Dairy,Yogurt,15.28,10.77,1
+P0237,Household,Sponges,21.56,14.65,0
+P0238,Household,Paper Towels,12.65,5.29,0
+P0239,Groceries,Pulses,11.95,7.21,1
+P0240,Clothing,Socks,7.81,3.37,0
+P0241,Household,Paper Towels,6.06,2.66,0
+P0242,Electronics,Cables,22.99,11.58,0
+P0243,Frozen,Ice Cream,17.6,7.32,1
+P0244,Groceries,Rice,9.98,6.37,1
+P0245,Toys,Cars,26.77,19.56,0
+P0246,Dairy,Milk,10.27,6.78,1
+P0247,Snacks,Crackers,30.28,14.56,0
+P0248,Beverages,Coffee,9.34,4.13,0
+P0249,Dairy,Milk,7.4,4.98,1
+P0250,Personal Care,Deodorant,7.81,3.28,0
+P0251,Household,Detergent,90.14,52.62,0
+P0252,Toys,Action Figures,17.74,11.8,0
+P0253,Groceries,Oil,7.83,3.75,1
+P0254,Clothing,T-Shirts,20.21,14.41,0
+P0255,Frozen,Pizza,2.02,1.0,1
+P0256,Clothing,Caps,6.03,4.43,0
+P0257,Toys,Board Games,18.27,12.01,0
+P0258,Dairy,Butter,10.38,5.51,1
+P0259,Electronics,Chargers,11.86,5.08,0
+P0260,Frozen,Seafood,51.2,35.73,1
+P0261,Electronics,Adapters,91.98,63.34,0
+P0262,Electronics,Cables,7.97,4.7,0
+P0263,Groceries,Oil,9.0,4.1,1
+P0264,Clothing,Scarves,18.87,13.08,0
+P0265,Clothing,Scarves,27.3,18.11,0
+P0266,Household,Sponges,41.49,29.39,0
+P0267,Toys,Board Games,9.06,5.98,0
+P0268,Dairy,Butter,6.25,3.72,1
+P0269,Household,Cleaner,23.43,17.42,0
+P0270,Groceries,Flour,3.7,2.3,1
+P0271,Electronics,Adapters,9.52,6.34,0
+P0272,Toys,Board Games,14.52,10.7,0
+P0273,Frozen,Seafood,7.81,5.23,1
+P0274,Snacks,Crackers,18.06,8.28,0
+P0275,Personal Care,Shampoo,2.86,1.77,0
+P0276,Dairy,Cheese,26.36,19.68,1
+P0277,Snacks,Crackers,16.34,6.68,0
+P0278,Groceries,Oil,8.0,3.91,1
+P0279,Household,Cleaner,11.13,8.13,0
+P0280,Beverages,Coffee,4.57,3.19,0
+P0281,Household,Sponges,5.38,2.31,0
+P0282,Snacks,Crackers,21.47,10.64,0
+P0283,Groceries,Spices,2.78,1.42,1
+P0284,Personal Care,Soap,7.74,3.67,0
+P0285,Groceries,Rice,18.21,10.29,1
+P0286,Electronics,Bulbs,48.26,22.44,0
+P0287,Groceries,Pulses,21.46,14.93,1
+P0288,Snacks,Crackers,21.72,14.75,0
+P0289,Frozen,Meals,45.17,21.98,1
+P0290,Clothing,T-Shirts,40.48,18.47,0
+P0291,Personal Care,Deodorant,23.87,12.14,0
+P0292,Groceries,Pulses,7.23,3.08,1
+P0293,Dairy,Yogurt,22.84,15.37,1
+P0294,Electronics,Chargers,17.12,9.73,0
+P0295,Electronics,Batteries,12.15,7.49,0
+P0296,Snacks,Chips,4.82,2.87,0
+P0297,Dairy,Butter,12.81,9.08,1
+P0298,Groceries,Pulses,6.52,2.79,1
+P0299,Personal Care,Soap,25.42,10.53,0
+P0300,Groceries,Oil,18.95,8.4,1
+P0301,Personal Care,Shampoo,51.91,36.59,0
+P0302,Dairy,Butter,16.22,11.04,1
+P0303,Household,Trash Bags,13.35,9.16,0
+P0304,Toys,Action Figures,26.05,10.79,0
+P0305,Toys,Action Figures,20.5,12.87,0
+P0306,Clothing,Scarves,42.69,26.28,0
+P0307,Beverages,Tea,19.24,10.62,0
+P0308,Beverages,Tea,16.45,9.78,0
+P0309,Dairy,Yogurt,12.56,5.9,1
+P0310,Beverages,Coffee,13.41,5.7,0
+P0311,Groceries,Spices,30.11,18.67,1
+P0312,Snacks,Nuts,9.78,4.05,0
+P0313,Groceries,Oil,3.49,2.28,1
+P0314,Snacks,Cookies,60.42,36.81,0
+P0315,Snacks,Cookies,4.39,2.47,0
+P0316,Frozen,Ice Cream,3.53,1.57,1
+P0317,Electronics,Bulbs,15.78,9.03,0
+P0318,Personal Care,Toothpaste,9.65,5.23,0
+P0319,Electronics,Batteries,7.04,4.42,0
+P0320,Clothing,T-Shirts,15.19,8.2,0
+P0321,Beverages,Coffee,12.35,7.53,0
+P0322,Snacks,Bars,11.3,5.46,0
+P0323,Toys,Action Figures,2.62,1.46,0
+P0324,Clothing,T-Shirts,7.2,4.01,0
+P0325,Electronics,Chargers,4.32,2.64,0
+P0326,Frozen,Meals,3.63,2.06,1
+P0327,Groceries,Spices,29.25,17.41,1
+P0328,Snacks,Cookies,10.71,7.98,0
+P0329,Clothing,Scarves,10.97,7.97,0
+P0330,Frozen,Ice Cream,5.32,3.07,1
+P0331,Toys,Dolls,25.36,14.18,0
+P0332,Dairy,Butter,16.07,9.42,1
+P0333,Household,Sponges,6.78,3.16,0
+P0334,Household,Sponges,18.25,10.13,0
+P0335,Frozen,Pizza,11.22,5.45,1
+P0336,Toys,Board Games,11.92,4.89,0
+P0337,Electronics,Batteries,29.5,14.03,0
+P0338,Frozen,Seafood,31.49,18.96,1
+P0339,Dairy,Cheese,3.35,2.36,1
+P0340,Clothing,Scarves,25.66,17.29,0
+P0341,Clothing,Caps,10.02,5.15,0
+P0342,Personal Care,Lotion,26.34,17.98,0
+P0343,Dairy,Cream,9.6,6.59,1
+P0344,Electronics,Batteries,36.62,18.86,0
+P0345,Groceries,Spices,31.1,16.58,1
+P0346,Clothing,T-Shirts,61.72,29.82,0
+P0347,Groceries,Oil,45.31,27.95,1
+P0348,Clothing,Caps,27.33,16.12,0
+P0349,Electronics,Cables,8.47,4.4,0
+P0350,Frozen,Pizza,11.99,7.01,1
+P0351,Snacks,Crackers,20.99,13.67,0
+P0352,Frozen,Vegetables,19.31,7.78,1
+P0353,Frozen,Meals,13.51,7.2,1
+P0354,Snacks,Bars,16.51,9.37,0
+P0355,Beverages,Soda,16.65,9.71,0
+P0356,Beverages,Soda,5.01,3.07,0
+P0357,Dairy,Cheese,7.52,3.33,1
+P0358,Household,Paper Towels,3.42,1.59,0
+P0359,Household,Detergent,3.41,2.51,0
+P0360,Snacks,Chips,17.33,9.2,0
+P0361,Toys,Action Figures,93.4,63.31,0
+P0362,Toys,Puzzles,16.95,8.92,0
+P0363,Toys,Board Games,22.15,10.99,0
+P0364,Beverages,Tea,6.95,3.81,0
+P0365,Toys,Board Games,14.75,8.23,0
+P0366,Dairy,Cream,6.52,2.99,1
+P0367,Beverages,Tea,9.18,3.98,0
+P0368,Frozen,Vegetables,17.51,10.72,1
+P0369,Toys,Board Games,39.16,22.47,0
+P0370,Dairy,Yogurt,3.16,1.92,1
+P0371,Dairy,Yogurt,2.73,1.78,1
+P0372,Household,Paper Towels,2.51,1.72,0
+P0373,Snacks,Cookies,21.01,14.09,0
+P0374,Snacks,Bars,9.79,6.98,0
+P0375,Beverages,Juice,5.05,2.65,0
+P0376,Snacks,Bars,6.9,4.01,0
+P0377,Dairy,Butter,7.41,4.36,1
+P0378,Personal Care,Soap,21.35,13.62,0
+P0379,Toys,Action Figures,3.67,2.75,0
+P0380,Household,Paper Towels,4.21,1.77,0
+P0381,Toys,Dolls,13.31,8.84,0
+P0382,Household,Cleaner,16.48,7.15,0
+P0383,Clothing,Gloves,34.86,23.65,0
+P0384,Household,Paper Towels,4.61,3.42,0
+P0385,Personal Care,Deodorant,24.34,11.81,0
+P0386,Frozen,Meals,22.45,13.88,1
+P0387,Dairy,Milk,13.8,6.29,1
+P0388,Snacks,Chips,87.58,42.0,0
+P0389,Dairy,Milk,2.8,1.51,1
+P0390,Household,Cleaner,18.29,11.16,0
+P0391,Household,Trash Bags,16.32,9.76,0
+P0392,Snacks,Cookies,37.4,21.52,0
+P0393,Groceries,Flour,70.35,44.74,1
+P0394,Toys,Action Figures,21.0,14.21,0
+P0395,Snacks,Chips,8.61,6.33,0
+P0396,Dairy,Cheese,7.89,5.43,1
+P0397,Clothing,Scarves,87.52,58.44,0
+P0398,Snacks,Crackers,9.58,7.03,0
+P0399,Personal Care,Shampoo,6.43,3.65,0
+P0400,Snacks,Chips,16.14,7.77,0
+P0401,Snacks,Cookies,21.77,8.71,0
+P0402,Dairy,Butter,8.44,4.45,1
+P0403,Beverages,Coffee,10.27,4.32,0
+P0404,Dairy,Cream,40.15,24.77,1
+P0405,Clothing,Caps,6.91,3.19,0
+P0406,Groceries,Spices,24.13,15.0,1
+P0407,Electronics,Batteries,6.78,3.12,0
+P0408,Snacks,Nuts,6.95,4.84,0
+P0409,Dairy,Cream,10.99,5.14,1
+P0410,Household,Trash Bags,26.88,14.65,0
+P0411,Household,Sponges,17.02,8.29,0
+P0412,Frozen,Seafood,11.23,7.48,1
+P0413,Toys,Cars,5.5,3.25,0
+P0414,Frozen,Meals,11.88,5.86,1
+P0415,Frozen,Pizza,21.89,14.97,1
+P0416,Snacks,Bars,4.52,2.53,0
+P0417,Frozen,Pizza,7.13,4.57,1
+P0418,Groceries,Flour,27.99,20.31,1
+P0419,Electronics,Adapters,12.0,6.42,0
+P0420,Personal Care,Shampoo,34.79,21.39,0
+P0421,Household,Sponges,17.6,10.2,0
+P0422,Frozen,Seafood,7.08,2.93,1
+P0423,Household,Trash Bags,29.21,12.76,0
+P0424,Groceries,Pulses,19.3,11.16,1
+P0425,Electronics,Cables,14.71,10.88,0
+P0426,Beverages,Water,12.01,5.58,0
+P0427,Toys,Cars,33.25,14.1,0
+P0428,Toys,Dolls,14.16,10.12,0
+P0429,Electronics,Batteries,10.29,7.57,0
+P0430,Household,Cleaner,11.09,5.69,0
+P0431,Snacks,Nuts,5.43,3.1,0
+P0432,Dairy,Yogurt,11.55,4.8,1
+P0433,Groceries,Flour,7.57,4.17,1
+P0434,Toys,Board Games,4.37,2.0,0
+P0435,Snacks,Nuts,10.21,7.25,0
+P0436,Electronics,Adapters,9.76,4.88,0
+P0437,Household,Detergent,15.52,9.66,0
+P0438,Frozen,Meals,3.23,1.35,1
+P0439,Personal Care,Lotion,15.42,10.1,0
+P0440,Dairy,Cream,3.08,1.97,1
+P0441,Snacks,Crackers,12.05,5.46,0
+P0442,Personal Care,Lotion,18.71,12.45,0
+P0443,Groceries,Oil,19.15,12.28,1
+P0444,Household,Paper Towels,2.98,1.86,0
+P0445,Frozen,Pizza,35.21,23.22,1
+P0446,Beverages,Juice,14.84,7.38,0
+P0447,Beverages,Soda,4.33,2.86,0
+P0448,Household,Trash Bags,28.86,13.44,0
+P0449,Clothing,Scarves,45.2,31.5,0
+P0450,Toys,Dolls,99.49,65.76,0
+P0451,Clothing,Socks,22.63,15.04,0
+P0452,Household,Trash Bags,29.9,22.39,0
+P0453,Snacks,Bars,32.09,15.28,0
+P0454,Toys,Cars,19.99,12.63,0
+P0455,Personal Care,Deodorant,8.73,4.72,0
+P0456,Household,Paper Towels,4.74,2.74,0
+P0457,Beverages,Coffee,41.83,24.94,0
+P0458,Electronics,Cables,60.64,36.98,0
+P0459,Beverages,Tea,12.11,5.17,0
+P0460,Personal Care,Deodorant,34.81,23.01,0
+P0461,Toys,Cars,13.08,7.25,0
+P0462,Snacks,Chips,39.73,21.93,0
+P0463,Dairy,Butter,22.61,11.41,1
+P0464,Groceries,Rice,24.67,15.37,1
+P0465,Snacks,Crackers,24.05,17.62,0
+P0466,Frozen,Ice Cream,24.55,14.68,1
+P0467,Toys,Puzzles,18.35,11.1,0
+P0468,Personal Care,Deodorant,6.15,3.96,0
+P0469,Beverages,Coffee,7.64,4.29,0
+P0470,Snacks,Chips,4.3,2.37,0
+P0471,Frozen,Meals,11.92,6.59,1
+P0472,Clothing,Gloves,50.29,33.59,0
+P0473,Personal Care,Toothpaste,9.78,7.07,0
+P0474,Clothing,Gloves,5.48,2.22,0
+P0475,Electronics,Bulbs,5.68,3.84,0
+P0476,Toys,Puzzles,5.68,3.95,0
+P0477,Personal Care,Toothpaste,14.0,5.83,0
+P0478,Dairy,Cheese,10.64,6.35,1
+P0479,Frozen,Meals,28.7,12.35,1
+P0480,Dairy,Yogurt,6.8,5.01,1
+P0481,Household,Sponges,11.16,5.48,0
+P0482,Clothing,Scarves,7.51,5.58,0
+P0483,Dairy,Cream,5.01,3.0,1
+P0484,Beverages,Water,19.18,14.2,0
+P0485,Clothing,Scarves,6.77,4.72,0
+P0486,Household,Detergent,6.37,3.71,0
+P0487,Dairy,Butter,9.62,6.23,1
+P0488,Groceries,Flour,13.76,5.9,1
+P0489,Personal Care,Soap,4.42,3.23,0
+P0490,Clothing,Socks,11.63,5.05,0
+P0491,Beverages,Coffee,6.21,4.19,0
+P0492,Personal Care,Toothpaste,27.18,14.26,0
+P0493,Beverages,Water,7.37,3.62,0
+P0494,Snacks,Cookies,19.73,10.17,0
+P0495,Snacks,Bars,5.59,2.74,0
+P0496,Clothing,Socks,17.59,11.66,0
+P0497,Groceries,Flour,11.6,8.33,1
+P0498,Groceries,Flour,6.76,3.88,1
+P0499,Personal Care,Toothpaste,2.09,0.9,0
+P0500,Frozen,Vegetables,5.31,2.49,1
