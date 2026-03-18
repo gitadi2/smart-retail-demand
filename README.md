@@ -64,8 +64,8 @@ End-to-end retail demand forecasting system — from raw sales data to a deploye
 Best model selected by R² score. 6 models trained: 4 Keras deep learning + 2 gradient boosting. MLflow used for experiment tracking.
 
 <p align="center">
-  <img src="reports/figures/model_comparison.png" width="45%" alt="Model Comparison"/>
-  <img src="reports/figures/inventory_optimization.png" width="45%" alt="Inventory Optimization"/>
+  <img src="reports/figures/model_comparison.png" width="75%" alt="Model Comparison"/>
+  <img src="reports/figures/inventory_optimization.png" width="75%" alt="Inventory Optimization"/>
 </p>
 
 ---
@@ -272,12 +272,38 @@ curl -X POST http://localhost:8000/predict \
 </p>
 
 <p align="center">
-  <img src="screenshots/ec2_instance_running.png" width="45%" alt="EC2 Instance Running"/>
-  <img src="screenshots/api_live_on_aws.png" width="45%" alt="API Live on AWS"/>
+  <img src="screenshots/regional_performance_3_tableau.jpg" width="45%" alt="Regional Performance"/>
+  <img src="screenshots/store_type_analysis_4_tableau.jpg" width="45%" alt="Revenue by Category"/>
 </p>
 
 <p align="center">
+  <img src="screenshots/promotion_impact_5_tableau.jpg" width="45%" alt="Revenue Trend"/>
+  <img src="screenshots/weekly_heatmap_6_tableau.jpg" width="45%" alt="Revenue by Category"/>
+</p>
+
+<p align="center">
+  <img src="screenshots/discount_analysis_7_tableau.jpg" width="45%" alt="Revenue Trend"/>
+  <img src="screenshots/model_comparison_8_tableau.jpg" width="45%" alt="Revenue by Category"/>
+</p>
+
+<p align="center">
+  <img src="screenshots/aws_console_home.png" width="45%" alt="AWS Console Home"/>
+  <img src="screenshots/ec2_instance_running.png" width="45%" alt="EC2 Instance Running"/>
+</p>
+
+<p align="center">
+  <img src="screenshots/ec2_instance_details.png" width="45%" alt="EC2 Instance Details"/>
+  <img src="screenshots/ec2_security_group.png" width="45%" alt="EC2 Security Group"/>
+</p>
+
+<p align="center">
+  <img src="screenshots/api_live_on_aws.png" width="45%" alt="API Live on AWS"/>
   <img src="screenshots/s3_bucket_folders.png" width="45%" alt="S3 Bucket"/>
+</p>
+
+
+<p align="center">
+  <img src="screenshots/s3_models_uploaded.png" width="45%" alt="S3 Models Uploaded"/>
   <img src="screenshots/rds_instance_details.png" width="45%" alt="RDS Database"/>
 </p>
 
