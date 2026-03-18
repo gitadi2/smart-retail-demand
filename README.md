@@ -1,4 +1,4 @@
- # Production ML Pipeline: XGBoost Demand Forecasting + DP Inventory Optimization
+ # Production Demand Forecasting & Inventory Optimization Pipeline
 
 End-to-end retail demand forecasting system — from raw sales data to a deployed FastAPI prediction API on AWS Cloud with Keras deep learning models, XGBoost, LightGBM, and DSA-optimized inventory allocation.
 
