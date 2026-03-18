@@ -309,6 +309,12 @@ curl -X POST http://localhost:8000/predict \
 
 ---
 
+## Interactive Dashboard
+
+- **Tableau Public (online)**: [SMART RETAIL DEMAND DASHBOARD IN TABLEAU PUBLIC](https://public.tableau.com/views/SMARTRETAILDEMANDDASHBOARD/SMARTRETAILDEMANDINVENTORYOPTIMIZATIONDASHBOARD?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
+- **Local HTML (online)**: [INTERACTIVE DASHBOARD](https://1drv.ms/u/c/87c7509185cc73aa/IQCudyuOv1pUQopI5wxDsqx7AXhDPTk0Km5mSB8o3EpEOnY?e=iiKViy)
+
+---
 ## Docker (Optional)
 
 > **Prerequisite:** Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) first.
