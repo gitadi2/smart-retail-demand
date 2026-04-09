@@ -1,4 +1,4 @@
- # Production Demand Forecasting & Inventory Optimization Pipeline
+ # RETAIL DEMAND FORECASTING (99.82% R²) + DYNAMMIC PROGRAMMING INVENTORY SOLVER
 
 End-to-end retail demand forecasting system — from raw sales data to a deployed FastAPI prediction API on AWS Cloud with Keras deep learning models, XGBoost, LightGBM, and DSA-optimized inventory allocation.
 
@@ -335,5 +335,7 @@ uvicorn src.api.forecasting_api:app --host 0.0.0.0 --port 8000
 
 ## Author
 
-ADITYA SATAPATHY
-[https://www.linkedin.com/in/adisatapathy](https://www.linkedin.com/in/adisatapathy)
+<h3> ADITYA SATAPATHY </h3>
+<a href="https://github.com/gitadi2" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/github.svg" alt="gitadi2" height="30" width="40" /></a>
+<a href="https://linkedin.com/in/adisatapathy" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="adisatapathy" height="30" width="40" /></a>
+<a href="mailto:satgriezeleo1007@gmail.com" target="blank"><img align="center" src="https://cdn.simpleicons.org/gmail/EA4335" alt="gmail" height="30" width="40" /></a>
