@@ -29,3 +29,11 @@ desktop.ini
 *.mat
 *.fig
 matlab_output/*.csv
+
+__pycache__/
+*.pyc
+venv/
+.env
+*.joblib
+artifacts/*.joblib
+.pytest_cache/
