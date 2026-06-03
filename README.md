@@ -2,16 +2,19 @@
 
 End-to-end retail demand forecasting system — built so the accuracy number is
 **trustworthy**: leakage-safe features, rolling-origin walk-forward validation, an
-automated leakage audit that gates CI, drift monitoring, and a latency-benchmarked
-FastAPI service — plus DSA-optimized inventory allocation, all deployable on AWS.
+automated leakage audit that gates CI, drift monitoring, a latency-benchmarked
+FastAPI service, and a **C++ vector-index cold-start engine** for forecasting
+brand-new products — plus DSA-optimized inventory allocation, all deployable on AWS.
 
-> **Headline:** on realistic, noisy demand the model reaches **WMAPE 25.7% (R² 0.79)**,
-> a **~47% improvement over a seasonal-naive baseline** — and a built-in audit proves
-> no feature leaks the target. (A retail demand model claiming R² ≈ 0.99 is leaking;
-> this project is built to prove it isn't.)
+> **Headline:** on realistic, noisy demand the model reaches **WMAPE 24.5% (R² 0.81)**,
+> a **~48% improvement over a seasonal-naive baseline** — and a built-in audit proves
+> no feature leaks the target. For brand-new products with zero history, a C++
+> similarity index borrows demand from similar items and cuts cold-start error by
+> **16%**. (A retail demand model claiming R² ≈ 0.99 is leaking; this project proves it isn't.)
 
 <p align="left">
 <a href="https://www.python.org" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40"/></a>
+<a href="https://isocpp.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg" alt="cpp" width="40" height="40"/></a>
 <a href="https://scikit-learn.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/scikitlearn/scikitlearn-original.svg" alt="scikit-learn" width="40" height="40"/></a>
 <a href="https://xgboost.readthedocs.io/" target="_blank" rel="noreferrer"><img src="https://upload.wikimedia.org/wikipedia/commons/6/69/XGBoost_logo.png" alt="xgboost" width="40" height="40"/></a>
 <a href="https://lightgbm.readthedocs.io/" target="_blank" rel="noreferrer"><img src="https://lightgbm.readthedocs.io/en/latest/_images/LightGBM_logo_black_text.svg" alt="lightgbm" width="70" height="40"/></a>
@@ -29,7 +32,6 @@ FastAPI service — plus DSA-optimized inventory allocation, all deployable on A
 <a href="https://matplotlib.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/matplotlib/matplotlib-original.svg" alt="matplotlib" width="40" height="40"/></a>
 <a href="https://docs.pytest.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/pytest/pytest-original.svg" alt="pytest" width="40" height="40"/></a>
 <a href="https://www.tableau.com/" target="_blank" rel="noreferrer"><img src="https://cdn.worldvectorlogo.com/logos/tableau-software.svg" alt="tableau" width="40" height="40"/></a>
-<a href="#algorithms--data-structures" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/TheAlgorithms/website/main/public/logo.svg" alt="dsa" width="40" height="40"/></a>
 </p>
 
 ---
@@ -42,10 +44,11 @@ FastAPI service — plus DSA-optimized inventory allocation, all deployable on A
 | random train/test split on time-ordered data | chronological split + rolling-origin walk-forward CV |
 | a single headline accuracy number | distribution across 5 folds, always vs a baseline |
 | no leakage check | automated **target-perturbation audit** as a CI hard gate |
+| new products forecast as a global average | **C++ vector index** borrows demand from similar products |
 | "trained a model" | drift detection, performance-regression tests, latency SLOs |
 
-See **[DESIGN.md](DESIGN.md)** for the reasoning behind every choice — including
-the leakage story and why gradient boosting over deep nets here.
+See **[DESIGN.md](DESIGN.md)** for the reasoning behind every choice — the leakage
+story, why gradient boosting over deep nets, and the cold-start design.
 
 ---
 
@@ -60,25 +63,24 @@ the leakage story and why gradient boosting over deep nets here.
                                           ┌──────────────────────▼───────────┐
                                           │  Leakage-safe Feature Engineering │
                                           │  lag + rolling on shift(1), cyclic│
-                                          └──────────────────────┬───────────┘
-                                                                 │
-                  ┌──────────────────────────────────────────────▼─────────────┐
-                  │  Walk-forward CV (rolling origin)  vs  seasonal-naive base  │
-                  │  → train best model (HGB / XGBoost / LightGBM, log1p target)│
-                  └───────────────┬───────────────────────────┬─────────────────┘
-                                  │                            │
-                ┌─────────────────▼──────┐        ┌────────────▼───────────┐
-                │  Inventory Optimizer   │        │   Drift Monitor (PSI)  │
-                │   DP + Binary Search   │        │   retrain trigger      │
-                └─────────────────┬──────┘        └────────────────────────┘
-                                  │
-                  ┌───────────────▼───────────────┐
-                  │  FastAPI /predict (LRU cache)  │   p99 ≈ 2 ms
-                  └───────────────┬───────────────┘
-                                  │
-                     ┌────────────▼────────────┐
-                     │   AWS: EC2 + S3 + RDS    │
-                     └──────────────────────────┘
+                                          └───────┬───────────────────┬───────┘
+                       has history                │                   │  NEW product (no history)
+                              ┌───────────────────▼──────┐   ┌─────────▼──────────────────┐
+                              │  Walk-forward CV vs        │   │  C++ Vector Index (AVX2)   │
+                              │  seasonal-naive baseline   │   │  embed → k-NN similar items│
+                              │  → train best model        │   │  → neighbour demand prior  │
+                              └───────────────────┬──────┘   └─────────┬──────────────────┘
+                                                  │                    │
+                            ┌─────────────────────┼────────────────────┘
+                            │                     │
+              ┌─────────────▼──────┐   ┌──────────▼─────────────┐   ┌──────────────────┐
+              │  Inventory Optim.  │   │ FastAPI /predict (LRU) │   │ Drift Monitor PSI│
+              │  DP + Binary Search│   │       p99 ≈ 2 ms       │   │  retrain trigger │
+              └────────────────────┘   └──────────┬─────────────┘   └──────────────────┘
+                                                   │
+                                      ┌────────────▼────────────┐
+                                      │   AWS: EC2 + S3 + RDS    │
+                                      └──────────────────────────┘
 ```
 
 ---
@@ -93,16 +95,16 @@ the leakage story and why gradient boosting over deep nets here.
 
 | Model | WMAPE | vs baseline |
 |-------|-------|-------------|
-| **Gradient Boosting (HGB / XGBoost / LightGBM)** | **25.7% ± 0.27** | **−47%** |
-| Seasonal-naive (baseline) | 48.3% ± 0.51 | — |
+| **Gradient Boosting (HGB / XGBoost / LightGBM)** | **24.5% ± 0.40** | **−48%** |
+| Seasonal-naive (baseline) | 46.8% ± 0.45 | — |
 
-**Final temporal holdout (last 56 days):** WMAPE 25.8% · R² 0.79 · MAE 2.72 · bias −1.02
+**Final temporal holdout (last 56 days):** WMAPE 24.5% · R² 0.81 · MAE 2.80 · bias −1.02
 
 Gradient boosting is the production engine (handles missing lag values natively,
 fast, strong on tabular data). Deep sequence models (LSTM / BiGRU / CNN-LSTM /
 Attention) were evaluated but did not beat gradient boosting on this calendar- and
 price-driven tabular data, so they were not worth the training cost — a deliberate
-trade-off, documented in [DESIGN.md](DESIGN.md).
+trade-off documented in [DESIGN.md](DESIGN.md).
 
 <p align="center">
   <img src="reports/figures/cv_wmape.png" width="70%" alt="Walk-forward CV: model vs seasonal-naive baseline"/>
@@ -122,6 +124,37 @@ model trains:
 $ python -m src.audit.leakage
 === Clean pipeline ===   target_perturbation: OK: no feature uses y[t]    -> PASS
 === Leaky pipeline ===   target_perturbation: LEAK via ['roll_mean_7_LEAK'] -> FAIL
+```
+
+---
+
+## Cold-start forecasting (C++ vector index)
+
+A brand-new product has no sales history, so every lag/rolling feature is null and a
+standard model can only guess its demand level. This system embeds each product
+(category + price band via the metadata backend, or a sentence-transformer embedding
+in production), indexes the embeddings in a **C++ AVX2 cosine-similarity index**
+(`vector_index/index.cpp`, called from Python via ctypes — no pybind11), and for a
+new product retrieves its *k* most similar existing products. Their training-period
+weekday demand profile becomes a leakage-safe `neighbour_prior` feature for a
+dedicated cold-start model.
+
+- **Measured lift:** cold-start WMAPE **58.8% → 49.1%, a 16% improvement** on products
+  the model had never seen (`python -m experiments.cold_start`).
+- **Index latency:** ~18 µs over 1k vectors, ~0.6 ms over 50k (brute-force AVX2).
+- **Leakage-safe:** a product's prior is built only from *other* products' *training*
+  demand — a unit test asserts that perturbing a product's own demand does not move
+  its prior (`tests/test_cold_start.py`).
+- **Portable:** falls back to a numpy implementation when the C++ `.so` isn't built,
+  so it runs anywhere; the C++ path compiles automatically in the Linux deploy image.
+
+```
+$ python -m experiments.cold_start_demo
+NEW product P0028 [Produce, $27.15]
+  nearest existing products (cosine sim):
+    P0006 [Produce, $31.67]  sim=0.99  avg demand=11.4
+    ...
+  --> borrowed demand level (prior): 11.0   (naive global-mean guess: 7.8)
 ```
 
 ---
@@ -148,10 +181,11 @@ Dynamic Programming and Binary Search optimize inventory allocation across store
 |-------|-----------|
 | **ML (production)** | scikit-learn HistGradientBoosting, optional XGBoost / LightGBM · log1p target transform |
 | **Deep learning (explored)** | TensorFlow/Keras — LSTM, BiGRU, CNN-LSTM, Attention |
+| **Cold-start (AI)** | C++ AVX2 vector index (ctypes), product embeddings (metadata + sentence-transformer hook), neighbour demand prior |
 | **Validation** | Rolling-origin walk-forward CV, chronological splits, WMAPE / MAE / RMSE / R² / bias |
 | **Quality gates** | Target-perturbation leakage audit, data-contract validation, performance-regression tests |
 | **Monitoring** | PSI drift detection |
-| **DSA** | Dynamic Programming, Binary Search, Sliding Window, Min-Heap, LRU Cache, Hash Map |
+| **DSA** | Dynamic Programming, Binary Search, Sliding Window, Min-Heap, LRU Cache, Hash Map, SIMD k-NN |
 | **API** | FastAPI, Uvicorn, Pydantic validation, LRU cache (p99 ≈ 2 ms) |
 | **Database** | PostgreSQL on AWS RDS, SQLAlchemy ORM |
 | **Cloud** | AWS EC2, S3, RDS |
@@ -165,37 +199,45 @@ Dynamic Programming and Binary Search optimize inventory allocation across store
 
 ```
 smart-retail-demand/
-├── run_pipeline.py              # generate → validate → AUDIT(gate) → features → walk-forward CV → train → optimize → drift
+├── run_pipeline.py              # generate → validate → AUDIT(gate) → features → walk-forward CV → train → drift
 ├── requirements.txt
 ├── Dockerfile
 ├── README.md
-├── DESIGN.md                    # NEW: decisions, trade-offs, the leakage story
+├── DESIGN.md                    # decisions, trade-offs, leakage + cold-start story
 ├── .github/workflows/ci.yml     # CI: leakage audit gate + tests on every push
 │
 ├── src/
 │   ├── data/
 │   │   ├── generate.py          # synthetic generator (honest noise) + real-dataset loader stub
 │   │   ├── data_cleaning.py     # type casting, dedup, derived columns
-│   │   └── validation.py        # NEW: schema + data-contract checks (hard gate)
+│   │   └── validation.py        # schema + data-contract checks (hard gate)
 │   ├── features/
 │   │   └── engineering.py       # LEAKAGE-SAFE: lag + rolling on shift(1), cyclical encoding
 │   ├── eval/
-│   │   ├── metrics.py           # NEW: WMAPE, MAE, RMSE, R², bias
-│   │   └── validation.py        # NEW: temporal split + rolling-origin walk-forward CV
+│   │   ├── metrics.py           # WMAPE, MAE, RMSE, R², bias
+│   │   └── validation.py        # temporal split + rolling-origin walk-forward CV
 │   ├── models/
 │   │   ├── train.py             # gradient boosting (HGB/XGBoost/LightGBM), log1p target
-│   │   └── baselines.py         # NEW: seasonal-naive baseline
+│   │   └── baselines.py         # seasonal-naive baseline
 │   ├── audit/
-│   │   └── leakage.py           # NEW: target-perturbation leakage audit (CI hard gate)
+│   │   └── leakage.py           # target-perturbation leakage audit (CI hard gate)
 │   ├── monitoring/
-│   │   └── drift.py             # NEW: PSI drift detection
+│   │   └── drift.py             # PSI drift detection
+│   ├── cold_start/              # the AI feature
+│   │   ├── embeddings.py        # metadata backend + sentence-transformer hook
+│   │   ├── neighbor_prior.py    # leakage-safe neighbour demand prior
+│   │   └── vector_index.py      # ctypes wrapper for the C++ index + numpy fallback
 │   ├── inventory_optimizer.py   # DP allocation, binary search reorder, sliding window
 │   ├── api/
-│   │   ├── forecasting_api.py   # FastAPI: /predict, /batch, /inventory — serves the safe model
+│   │   ├── forecasting_api.py   # FastAPI: /predict, /batch, /inventory
 │   │   └── schemas.py           # Pydantic request/response models
 │   └── utils/
 │       ├── algorithms.py        # DP, binary search, sliding window, min-heap
 │       └── data_structures.py   # LRU Cache, SortedDemandArray, DemandBucketMap
+│
+├── vector_index/                # C++ similarity engine
+│   ├── index.cpp                # AVX2 cosine search, extern "C" API
+│   └── build.sh                 # g++ -O3 -march=native → libvecindex.so
 │
 ├── sql/
 │   ├── 01_create_schema.sql     # PostgreSQL schema
@@ -204,8 +246,16 @@ smart-retail-demand/
 │   ├── 04_feature_engineering.sql   # NOTE: offset rolling windows by 1 row (no same-row aggregates)
 │   └── 05_analytics_views.sql   # Aggregated views for dashboards
 │
+├── experiments/
+│   ├── cold_start.py            # with/without-prior cold-start WMAPE proof
+│   └── cold_start_demo.py       # human-readable neighbour matches
+│
+├── benchmarks/
+│   └── latency.py               # p50/p95/p99 + batch throughput
+│
 ├── tests/
-│   ├── test_leakage.py          # NEW: leakage regression + performance-regression gate
+│   ├── test_all.py              # leakage regression + performance-regression gate
+│   ├── test_cold_start.py       # vector index + prior leakage-safety
 │   ├── test_algorithms.py       # DP, binary search, sliding window tests
 │   ├── test_api.py              # API schema validation tests
 │   └── test_data_structures.py  # LRU cache, sorted array, bucket map tests
@@ -214,10 +264,8 @@ smart-retail-demand/
 │   ├── raw/                     # retail_sales.csv, products.csv, stores.csv (or M5)
 │   └── processed/               # cleaned_sales.csv, model_metrics.csv
 │
-├── models/                      # Trained model + feature_order.json + metrics
+├── models/                      # Trained model + feature_order.json + metrics (gitignored)
 ├── reports/figures/             # cv_wmape.png, inventory & comparison charts
-├── benchmarks/
-│   └── latency.py               # NEW: p50/p95/p99 + batch throughput
 ├── dashboards/                  # Interactive HTML dashboard
 └── screenshots/                 # Tableau + Swagger UI + AWS Cloud screenshots
 ```
@@ -237,48 +285,46 @@ venv\Scripts\activate        # Windows
 pip install -r requirements.txt
 ```
 
-### 2. Configure Environment
-
-```bash
-cp config/.env.example .env
-# Edit .env with your database credentials
-```
-
-### 3. Run Full Pipeline
+### 2. Run the forecasting pipeline
 
 ```bash
 python run_pipeline.py
 ```
 
-Stages:
-1. **Generate / load** demand data (synthetic with irreducible noise, or a real dataset)
-2. **Validate** — data-contract checks (no negatives, no dupes, contiguous dates)
-3. **Leakage audit** — target-perturbation test; pipeline halts if any feature leaks
-4. **Feature engineering** — leakage-safe lags + shifted rolling stats + cyclical encoding
-5. **Walk-forward CV** — rolling-origin, vs seasonal-naive baseline; train best model
-6. **Optimize** — DP inventory allocation, binary search reorder points
-7. **Drift report** — PSI between training and holdout windows
+Stages: generate/load → validate → **leakage audit (halts on leak)** → leakage-safe
+features → walk-forward CV vs baseline → train best model → DP inventory optimize →
+PSI drift report.
 
-### 4. Verify the leakage audit & benchmarks
+### 3. See the cold-start AI feature
+
+```bash
+python -m experiments.cold_start_demo     # which similar products a new item borrows from
+python -m experiments.cold_start          # cold-start WMAPE without vs with the prior
+```
+
+Optional — build the C++ index for the fast path (Linux/macOS/WSL):
+
+```bash
+bash vector_index/build.sh                # → vector_index/libvecindex.so
+```
+
+On Windows without a compiler it auto-uses the numpy fallback (same results).
+
+### 4. Verify audit, tests, benchmarks
 
 ```bash
 python -m src.audit.leakage     # pass/fail demo on clean vs leaky features
 python -m benchmarks.latency    # p50/p95/p99 + throughput
+pytest tests/ -v                # leakage + performance-regression + cold-start gates
 ```
 
-### 5. Launch Forecasting API
+### 5. Launch the API
 
 ```bash
 uvicorn src.api.forecasting_api:app --port 8000
 ```
 
 Open Swagger UI: [http://localhost:8000/docs](http://localhost:8000/docs)
-
-### 6. Run Tests
-
-```bash
-pytest tests/ -v                # includes leakage + performance-regression gates
-```
 
 ---
 
@@ -287,8 +333,8 @@ pytest tests/ -v                # includes leakage + performance-regression gate
 The pipeline is dataset-agnostic. Implement `load_real_dataset()` in
 `src/data/generate.py` to return the project schema (`date, store_id, product_id,
 category, price, is_promotion, is_holiday, units_sold`) from **M5 / Rossmann /
-Favorita**, and every stage — validation, audit, features, CV, serving — works
-unchanged, with WMAPE now directly comparable to public leaderboards.
+Favorita**, and every stage — validation, audit, features, CV, cold-start, serving —
+works unchanged, with WMAPE now directly comparable to public leaderboards.
 
 ---
 
@@ -305,41 +351,13 @@ unchanged, with WMAPE now directly comparable to public leaderboards.
 
 **Serving latency (predict path):** p50 ≈ 1.2 ms · p95 ≈ 1.6 ms · p99 ≈ 2.0 ms · ~79k pred/s batched
 
-**Example Request:**
-
-```bash
-curl -X POST http://localhost:8000/predict \
-  -H "Content-Type: application/json" \
-  -d '{
-    "store_id": "S012",
-    "product_id": "P0133",
-    "category": "Snacks",
-    "month": 10,
-    "day_of_week": 4,
-    "is_promotion": false,
-    "is_holiday": false
-  }'
-```
-
-**Example Response:**
-
-```json
-{
-  "store_id": "S012",
-  "product_id": "P0133",
-  "predicted_demand": 15.3,
-  "confidence_interval": {"lower": 12.1, "upper": 18.5},
-  "model_used": "HistGradientBoosting",
-  "cached": false
-}
-```
-
 ---
 
 ## Algorithms & Data Structures
 
 | Component | Complexity | Purpose |
 |-----------|-----------|---------|
+| **SIMD k-NN (C++ index)** | O(n·d), AVX2 | Cold-start product similarity search |
 | **DP Inventory Allocation** | O(n × W) | Optimal stock distribution across stores |
 | **Binary Search Reorder** | O(log n) | Find optimal reorder point for service level |
 | **Sliding Window** | O(n) single pass | Rolling demand anomaly detection |
@@ -376,42 +394,24 @@ curl -X POST http://localhost:8000/predict \
 </p>
 
 <p align="center">
-  <img src="screenshots/discount_analysis_7_tableau.jpg" width="45%" alt="Discount Analysis"/>
-  <img src="screenshots/model_comparison_8_tableau.jpg" width="45%" alt="Model Comparison"/>
-</p>
-
-<p align="center">
   <img src="screenshots/aws_console_home.png" width="45%" alt="AWS Console Home"/>
-  <img src="screenshots/ec2_instance_running.png" width="45%" alt="EC2 Instance Running"/>
-</p>
-
-<p align="center">
   <img src="screenshots/api_live_on_aws.png" width="45%" alt="API Live on AWS"/>
-  <img src="screenshots/rds_instance_details.png" width="45%" alt="RDS Database"/>
 </p>
 
 ---
 
 ## Interactive Dashboard
 
-- **Tableau Public (online)**: [SMART RETAIL DEMAND DASHBOARD](https://public.tableau.com/views/SMARTRETAILDEMANDDASHBOARD/SMARTRETAILDEMANDINVENTORYOPTIMIZATIONDASHBOARD?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
+- **Tableau Public**: [SMART RETAIL DEMAND DASHBOARD](https://public.tableau.com/views/SMARTRETAILDEMANDDASHBOARD/SMARTRETAILDEMANDINVENTORYOPTIMIZATIONDASHBOARD?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
 - **Local HTML**: [INTERACTIVE DASHBOARD](https://raw.githack.com/gitadi2/smart-retail-demand/master/dashboards/retail_demand_dashboard.html)
 
 ---
 
-## Docker (Optional)
-
-> **Prerequisite:** Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) first.
+## Docker
 
 ```bash
-docker build -t smart-retail-demand .
+docker build -t smart-retail-demand .      # compiles the C++ index inside the image
 docker run -p 8000:8000 smart-retail-demand
-```
-
-**Without Docker** — run the API directly:
-
-```bash
-uvicorn src.api.forecasting_api:app --host 0.0.0.0 --port 8000
 ```
 
 ---
