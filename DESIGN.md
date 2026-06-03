@@ -106,3 +106,38 @@ behavioural features (rolling demand level, price).
 
 Fixed seeds throughout; `python run_pipeline.py` regenerates every metric and
 figure; the leakage audit + performance-regression test run in CI on every push.
+
+## 9. Cold-start forecasting (vector search + embeddings)
+
+**Problem.** A brand-new product has no sales history, so every lag/rolling
+feature is null and the model can only guess its demand level. This "cold start"
+is a real, persistent retail-forecasting pain.
+
+**Approach.** Embed each product (category + price band via the metadata backend,
+or an LLM/sentence-transformer embedding in production), index the embeddings, and
+for a new product retrieve its *k* most similar existing products. The new
+product's forecast borrows those neighbours' training-period weekday demand
+profile as a `neighbour_prior` feature. A dedicated cold-start model uses only
+launch-time-known features (price, calendar, promo) plus this prior — deliberately
+not lags, since a new product has none.
+
+**Why C++.** The similarity search is a `extern "C"` shared library
+(`vector_index/index.cpp`) called from Python via ctypes — no pybind11. It uses
+AVX2 dot products over L2-normalised vectors (cosine), contiguous memory, and a
+binary save/load (mmap is the production path). Measured: ~18 µs search over 1k
+vectors, ~0.6 ms over 50k (brute-force). For >~1M vectors, add IVF (k-means cells)
+or HNSW — the brute-force core is the honest, benchmarked starting point, not a
+half-built FAISS clone.
+
+**Leakage-safety.** The prior for product P is built only from *other* products'
+*training* demand, computed once from a frozen training snapshot and merged as a
+static `[product_id, dow]` lookup. Perturbing P's own demand cannot change P's
+prior — there's a unit test asserting exactly this (`tests/test_cold_start.py`).
+
+**Measured value.** On a held-out set of products with their history deleted
+(simulated launches), the neighbour prior cut cold-start WMAPE from **58.8% to
+49.1% — a 16.5% improvement** on products the model had never seen. It doesn't
+reach warm-start accuracy (~25%), which is the honest expectation: a prior
+narrows cold-start error, it doesn't eliminate it.
+
+Run: `python -m experiments.cold_start`
