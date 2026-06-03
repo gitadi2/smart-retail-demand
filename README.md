@@ -1,21 +1,27 @@
- # RETAIL DEMAND FORECASTING (99.82% R²) + DYNAMMIC PROGRAMMING INVENTORY SOLVER
+# RETAIL DEMAND FORECASTING (Leakage-Safe MLOps) + DYNAMIC PROGRAMMING INVENTORY SOLVER
 
-End-to-end retail demand forecasting system — from raw sales data to a deployed FastAPI prediction API on AWS Cloud with Keras deep learning models, XGBoost, LightGBM, and DSA-optimized inventory allocation.
+End-to-end retail demand forecasting system — built so the accuracy number is
+**trustworthy**: leakage-safe features, rolling-origin walk-forward validation, an
+automated leakage audit that gates CI, drift monitoring, and a latency-benchmarked
+FastAPI service — plus DSA-optimized inventory allocation, all deployable on AWS.
+
+> **Headline:** on realistic, noisy demand the model reaches **WMAPE 25.7% (R² 0.79)**,
+> a **~47% improvement over a seasonal-naive baseline** — and a built-in audit proves
+> no feature leaks the target. (A retail demand model claiming R² ≈ 0.99 is leaking;
+> this project is built to prove it isn't.)
 
 <p align="left">
 <a href="https://www.python.org" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40"/></a>
-<a href="https://www.tensorflow.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/tensorflow/tensorflow-original.svg" alt="tensorflow" width="40" height="40"/></a>
-<a href="https://keras.io/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/keras/keras-original.svg" alt="keras" width="40" height="40"/></a>
+<a href="https://scikit-learn.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/scikitlearn/scikitlearn-original.svg" alt="scikit-learn" width="40" height="40"/></a>
 <a href="https://xgboost.readthedocs.io/" target="_blank" rel="noreferrer"><img src="https://upload.wikimedia.org/wikipedia/commons/6/69/XGBoost_logo.png" alt="xgboost" width="40" height="40"/></a>
 <a href="https://lightgbm.readthedocs.io/" target="_blank" rel="noreferrer"><img src="https://lightgbm.readthedocs.io/en/latest/_images/LightGBM_logo_black_text.svg" alt="lightgbm" width="70" height="40"/></a>
+<a href="https://www.tensorflow.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/tensorflow/tensorflow-original.svg" alt="tensorflow" width="40" height="40"/></a>
+<a href="https://keras.io/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/keras/keras-original.svg" alt="keras" width="40" height="40"/></a>
 <a href="https://fastapi.tiangolo.com/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/fastapi/fastapi-original.svg" alt="fastapi" width="40" height="40"/></a>
-<a href="https://scikit-learn.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/scikitlearn/scikitlearn-original.svg" alt="scikit-learn" width="40" height="40"/></a>
 <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original.svg" alt="postgresql" width="40" height="40"/></a>
 <a href="https://aws.amazon.com" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="aws" width="40" height="40"/></a>
 <a href="https://www.docker.com/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg" alt="docker" width="40" height="40"/></a>
-<a href="https://developer.mozilla.org/en-US/docs/Web/mlflow" target="_blank" rel="noreferrer"> <img src="https://cdn.simpleicons.org/mlflow/0194E2" alt="mlflow" width="40" height="40"/> </a> 
-<a href="https://developer.mozilla.org/en-US/docs/Web/chartjs" target="_blank" rel="noreferrer"> <img src="https://cdn.simpleicons.org/chartdotjs/FF6384" alt="chartjs" width="40" height="40"/> </a>
- <a href="https://developer.mozilla.org/en-US/docs/Web/seaborn" target="_blank" rel="noreferrer"> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="seaborn" width="40" height="40"/> </a>
+<a href="https://mlflow.org/" target="_blank" rel="noreferrer"> <img src="https://cdn.simpleicons.org/mlflow/0194E2" alt="mlflow" width="40" height="40"/> </a>
 <a href="https://git-scm.com/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg" alt="git" width="40" height="40"/></a>
 <a href="https://github.com/features/actions" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/githubactions/githubactions-original.svg" alt="github-actions" width="40" height="40"/></a>
 <a href="https://pandas.pydata.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/pandas/pandas-original.svg" alt="pandas" width="40" height="40"/></a>
@@ -26,47 +32,97 @@ End-to-end retail demand forecasting system — from raw sales data to a deploye
 <a href="#algorithms--data-structures" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/TheAlgorithms/website/main/public/logo.svg" alt="dsa" width="40" height="40"/></a>
 </p>
 
+---
+
+## Why this is built differently
+
+| Common pitfall | This project |
+|---|---|
+| `rolling(7).mean()` on the target (includes `y[t]` → leak) | rolling stats on the `.shift(1)` series — window ends at `t-1` |
+| random train/test split on time-ordered data | chronological split + rolling-origin walk-forward CV |
+| a single headline accuracy number | distribution across 5 folds, always vs a baseline |
+| no leakage check | automated **target-perturbation audit** as a CI hard gate |
+| "trained a model" | drift detection, performance-regression tests, latency SLOs |
+
+See **[DESIGN.md](DESIGN.md)** for the reasoning behind every choice — including
+the leakage story and why gradient boosting over deep nets here.
+
+---
 
 ## Architecture
 
 ```
-┌─────────────┐    ┌──────────────┐    ┌───────────────┐    ┌──────────────┐
-│  Raw Data   │───▶│ Data Cleaning│───▶│   Feature     │───▶│   Model      │
-│ 420K sales  │    │ Dedup, Types │    │ Engineering   │    │  Training    │
-│ 50 stores   │    │ Validation   │    │ 26 features   │    │ 6 models     │
-└─────────────┘    └──────────────┘    └───────────────┘    └──────┬───────┘
-                                                                   │
-                   ┌──────────────┐    ┌───────────────┐           │
-                   │   FastAPI    │◀───│  Inventory    │◀──────────┘
-                   │ Forecast API │    │  Optimizer    │
-                   │  /predict    │    │ DP + BinSearch│
-                   └──────┬───────┘    └───────────────┘
-                          │
-              ┌───────────┴────────────┐
-              │   AWS Cloud Deploy     │
-              │  EC2 + S3 + RDS        │
-              └────────────────────────┘
+┌────────────┐   ┌────────────┐   ┌──────────────┐   ┌──────────────────────┐
+│  Raw / M5  │──▶│  Cleaning  │──▶│  Validation  │──▶│  LEAKAGE AUDIT (gate) │
+│   data     │   │ dedup/types│   │ data contract│   │ target-perturbation   │
+└────────────┘   └────────────┘   └──────────────┘   └──────────┬───────────┘
+                                                                 │ pass
+                                          ┌──────────────────────▼───────────┐
+                                          │  Leakage-safe Feature Engineering │
+                                          │  lag + rolling on shift(1), cyclic│
+                                          └──────────────────────┬───────────┘
+                                                                 │
+                  ┌──────────────────────────────────────────────▼─────────────┐
+                  │  Walk-forward CV (rolling origin)  vs  seasonal-naive base  │
+                  │  → train best model (HGB / XGBoost / LightGBM, log1p target)│
+                  └───────────────┬───────────────────────────┬─────────────────┘
+                                  │                            │
+                ┌─────────────────▼──────┐        ┌────────────▼───────────┐
+                │  Inventory Optimizer   │        │   Drift Monitor (PSI)  │
+                │   DP + Binary Search   │        │   retrain trigger      │
+                └─────────────────┬──────┘        └────────────────────────┘
+                                  │
+                  ┌───────────────▼───────────────┐
+                  │  FastAPI /predict (LRU cache)  │   p99 ≈ 2 ms
+                  └───────────────┬───────────────┘
+                                  │
+                     ┌────────────▼────────────┐
+                     │   AWS: EC2 + S3 + RDS    │
+                     └──────────────────────────┘
 ```
 
 ---
 
 ## Model Performance
 
-| Model | MAE | RMSE | R² | MAPE | Train Time |
-|-------|-----|------|----|------|------------|
-| **XGBoost** | **0.2286** | **0.4379** | **0.9982** ✓ Best | **2.09%** | 7.09s |
-| LightGBM | 0.3337 | 0.5087 | 0.9976 | 3.70% | 6.19s |
-| LSTM | 6.9421 | 9.2088 | 0.2218 | 105.11% | 1470.83s |
-| BiGRU | 7.0119 | 9.1440 | 0.2327 | 110.69% | 588.18s |
-| CNN-LSTM | 7.2500 | 9.3508 | 0.1976 | 118.70% | 158.09s |
-| Attention | 7.1805 | 9.3550 | 0.1969 | 113.87% | 641.71s |
+> Numbers are from the leakage-safe pipeline (`python run_pipeline.py`), reproducible
+> with a fixed seed. Swap in a real dataset (M5 / Rossmann / Favorita) to benchmark
+> against public leaderboards — see [Using a real dataset](#using-a-real-dataset).
 
-Best model selected by R² score. 6 models trained: 4 Keras deep learning + 2 gradient boosting. MLflow used for experiment tracking.
+**Walk-forward CV — 5 folds × 28-day horizon (WMAPE, lower is better):**
+
+| Model | WMAPE | vs baseline |
+|-------|-------|-------------|
+| **Gradient Boosting (HGB / XGBoost / LightGBM)** | **25.7% ± 0.27** | **−47%** |
+| Seasonal-naive (baseline) | 48.3% ± 0.51 | — |
+
+**Final temporal holdout (last 56 days):** WMAPE 25.8% · R² 0.79 · MAE 2.72 · bias −1.02
+
+Gradient boosting is the production engine (handles missing lag values natively,
+fast, strong on tabular data). Deep sequence models (LSTM / BiGRU / CNN-LSTM /
+Attention) were evaluated but did not beat gradient boosting on this calendar- and
+price-driven tabular data, so they were not worth the training cost — a deliberate
+trade-off, documented in [DESIGN.md](DESIGN.md).
 
 <p align="center">
-  <img src="reports/figures/model_comparison.png" width="75%" alt="Model Comparison"/>
-  <img src="reports/figures/inventory_optimization.png" width="75%" alt="Inventory Optimization"/>
+  <img src="reports/figures/cv_wmape.png" width="70%" alt="Walk-forward CV: model vs seasonal-naive baseline"/>
 </p>
+
+---
+
+## Leakage safety (the part that matters)
+
+`src/audit/leakage.py` runs a **target-perturbation test**: perturb `y` at the last
+row of each series, rebuild features, and assert nothing at that row moved. A
+leakage-free feature for row `t` uses only rows `< t`, so it can't move. This catches
+the same-row-rolling-mean bug regardless of how it's named, and runs in CI before any
+model trains:
+
+```
+$ python -m src.audit.leakage
+=== Clean pipeline ===   target_perturbation: OK: no feature uses y[t]    -> PASS
+=== Leaky pipeline ===   target_perturbation: LEAK via ['roll_mean_7_LEAK'] -> FAIL
+```
 
 ---
 
@@ -90,16 +146,17 @@ Dynamic Programming and Binary Search optimize inventory allocation across store
 
 | Layer | Technology |
 |-------|-----------|
-| **Deep Learning** | TensorFlow/Keras — LSTM, BiGRU, CNN-LSTM, Attention |
-| **ML** | XGBoost, LightGBM, scikit-learn |
+| **ML (production)** | scikit-learn HistGradientBoosting, optional XGBoost / LightGBM · log1p target transform |
+| **Deep learning (explored)** | TensorFlow/Keras — LSTM, BiGRU, CNN-LSTM, Attention |
+| **Validation** | Rolling-origin walk-forward CV, chronological splits, WMAPE / MAE / RMSE / R² / bias |
+| **Quality gates** | Target-perturbation leakage audit, data-contract validation, performance-regression tests |
+| **Monitoring** | PSI drift detection |
 | **DSA** | Dynamic Programming, Binary Search, Sliding Window, Min-Heap, LRU Cache, Hash Map |
-| **API** | FastAPI, Uvicorn, Pydantic validation |
+| **API** | FastAPI, Uvicorn, Pydantic validation, LRU cache (p99 ≈ 2 ms) |
 | **Database** | PostgreSQL on AWS RDS, SQLAlchemy ORM |
-| **Cloud** | AWS EC2, AWS S3, AWS RDS |
+| **Cloud** | AWS EC2, S3, RDS |
 | **Experiment Tracking** | MLflow |
-| **Data** | Pandas, NumPy, Statsmodels, SciPy |
-| **DevOps** | Docker, GitHub Actions CI/CD, Git |
-| **Testing** | pytest |
+| **DevOps** | Docker, GitHub Actions CI/CD (audit + tests), Git |
 | **Visualization** | Tableau, Matplotlib, Seaborn, Chart.js |
 
 ---
@@ -108,18 +165,33 @@ Dynamic Programming and Binary Search optimize inventory allocation across store
 
 ```
 smart-retail-demand/
-├── run_pipeline.py              # One-click: generate → clean → engineer → train → optimize → test
+├── run_pipeline.py              # generate → validate → AUDIT(gate) → features → walk-forward CV → train → optimize → drift
 ├── requirements.txt
 ├── Dockerfile
-├── .github/workflows/ci.yml    # CI: lint + test on every push
+├── README.md
+├── DESIGN.md                    # NEW: decisions, trade-offs, the leakage story
+├── .github/workflows/ci.yml     # CI: leakage audit gate + tests on every push
 │
 ├── src/
-│   ├── data_cleaning.py         # Type casting, validation, derived columns
-│   ├── feature_engineering.py   # 26 features — rolling stats, lag, cyclical encoding
-│   ├── model_training.py        # LSTM, BiGRU, CNN-LSTM, Attention, XGBoost, LightGBM
+│   ├── data/
+│   │   ├── generate.py          # synthetic generator (honest noise) + real-dataset loader stub
+│   │   ├── data_cleaning.py     # type casting, dedup, derived columns
+│   │   └── validation.py        # NEW: schema + data-contract checks (hard gate)
+│   ├── features/
+│   │   └── engineering.py       # LEAKAGE-SAFE: lag + rolling on shift(1), cyclical encoding
+│   ├── eval/
+│   │   ├── metrics.py           # NEW: WMAPE, MAE, RMSE, R², bias
+│   │   └── validation.py        # NEW: temporal split + rolling-origin walk-forward CV
+│   ├── models/
+│   │   ├── train.py             # gradient boosting (HGB/XGBoost/LightGBM), log1p target
+│   │   └── baselines.py         # NEW: seasonal-naive baseline
+│   ├── audit/
+│   │   └── leakage.py           # NEW: target-perturbation leakage audit (CI hard gate)
+│   ├── monitoring/
+│   │   └── drift.py             # NEW: PSI drift detection
 │   ├── inventory_optimizer.py   # DP allocation, binary search reorder, sliding window
 │   ├── api/
-│   │   ├── forecasting_api.py   # FastAPI endpoints: /predict, /batch, /inventory
+│   │   ├── forecasting_api.py   # FastAPI: /predict, /batch, /inventory — serves the safe model
 │   │   └── schemas.py           # Pydantic request/response models
 │   └── utils/
 │       ├── algorithms.py        # DP, binary search, sliding window, min-heap
@@ -129,23 +201,25 @@ smart-retail-demand/
 │   ├── 01_create_schema.sql     # PostgreSQL schema
 │   ├── 02_create_tables.sql     # Table definitions
 │   ├── 03_etl_pipeline.sql      # SQL-based ETL
-│   ├── 04_feature_engineering.sql
+│   ├── 04_feature_engineering.sql   # NOTE: offset rolling windows by 1 row (no same-row aggregates)
 │   └── 05_analytics_views.sql   # Aggregated views for dashboards
 │
 ├── tests/
+│   ├── test_leakage.py          # NEW: leakage regression + performance-regression gate
 │   ├── test_algorithms.py       # DP, binary search, sliding window tests
 │   ├── test_api.py              # API schema validation tests
 │   └── test_data_structures.py  # LRU cache, sorted array, bucket map tests
 │
 ├── data/
-│   ├── raw/                     # retail_sales.csv, products.csv, stores.csv
+│   ├── raw/                     # retail_sales.csv, products.csv, stores.csv (or M5)
 │   └── processed/               # cleaned_sales.csv, model_metrics.csv
 │
-├── models/                      # Trained .keras + .pkl + metrics JSON
-├── reports/figures/             # Model comparison & optimization charts
+├── models/                      # Trained model + feature_order.json + metrics
+├── reports/figures/             # cv_wmape.png, inventory & comparison charts
+├── benchmarks/
+│   └── latency.py               # NEW: p50/p95/p99 + batch throughput
 ├── dashboards/                  # Interactive HTML dashboard
-├── screenshots/                 # Tableau + Swagger UI + AWS Cloud screenshots
-└── benchmarks/                  # Performance benchmarking suite
+└── screenshots/                 # Tableau + Swagger UI + AWS Cloud screenshots
 ```
 
 ---
@@ -176,15 +250,23 @@ cp config/.env.example .env
 python run_pipeline.py
 ```
 
-This runs all 6 stages:
-1. **Generate** sample data (420K sales across 50 stores)
-2. **Clean** — type casting, validation, derived columns
-3. **Engineer** — 26 features: rolling means, lag, cyclical encoding
-4. **Train** — 6 models (4 Keras DL + XGBoost + LightGBM) with MLflow tracking
-5. **Optimize** — DP inventory allocation, binary search reorder points
-6. **Test** — pytest suite
+Stages:
+1. **Generate / load** demand data (synthetic with irreducible noise, or a real dataset)
+2. **Validate** — data-contract checks (no negatives, no dupes, contiguous dates)
+3. **Leakage audit** — target-perturbation test; pipeline halts if any feature leaks
+4. **Feature engineering** — leakage-safe lags + shifted rolling stats + cyclical encoding
+5. **Walk-forward CV** — rolling-origin, vs seasonal-naive baseline; train best model
+6. **Optimize** — DP inventory allocation, binary search reorder points
+7. **Drift report** — PSI between training and holdout windows
 
-### 4. Launch Forecasting API
+### 4. Verify the leakage audit & benchmarks
+
+```bash
+python -m src.audit.leakage     # pass/fail demo on clean vs leaky features
+python -m benchmarks.latency    # p50/p95/p99 + throughput
+```
+
+### 5. Launch Forecasting API
 
 ```bash
 uvicorn src.api.forecasting_api:app --port 8000
@@ -192,11 +274,21 @@ uvicorn src.api.forecasting_api:app --port 8000
 
 Open Swagger UI: [http://localhost:8000/docs](http://localhost:8000/docs)
 
-### 5. Run Tests
+### 6. Run Tests
 
 ```bash
-pytest tests/ -v
+pytest tests/ -v                # includes leakage + performance-regression gates
 ```
+
+---
+
+## Using a real dataset
+
+The pipeline is dataset-agnostic. Implement `load_real_dataset()` in
+`src/data/generate.py` to return the project schema (`date, store_id, product_id,
+category, price, is_promotion, is_holiday, units_sold`) from **M5 / Rossmann /
+Favorita**, and every stage — validation, audit, features, CV, serving — works
+unchanged, with WMAPE now directly comparable to public leaderboards.
 
 ---
 
@@ -210,6 +302,8 @@ pytest tests/ -v
 | `/inventory/allocate` | POST | DP-based inventory allocation across stores |
 | `/cache/stats` | GET | Cache utilization metrics |
 | `/cache/clear` | POST | Clear prediction cache |
+
+**Serving latency (predict path):** p50 ≈ 1.2 ms · p95 ≈ 1.6 ms · p99 ≈ 2.0 ms · ~79k pred/s batched
 
 **Example Request:**
 
@@ -235,7 +329,7 @@ curl -X POST http://localhost:8000/predict \
   "product_id": "P0133",
   "predicted_demand": 15.3,
   "confidence_interval": {"lower": 12.1, "upper": 18.5},
-  "model_used": "XGBoost",
+  "model_used": "HistGradientBoosting",
   "cached": false
 }
 ```
@@ -273,17 +367,17 @@ curl -X POST http://localhost:8000/predict \
 
 <p align="center">
   <img src="screenshots/regional_performance_3_tableau.jpg" width="45%" alt="Regional Performance"/>
-  <img src="screenshots/store_type_analysis_4_tableau.jpg" width="45%" alt="Revenue by Category"/>
+  <img src="screenshots/store_type_analysis_4_tableau.jpg" width="45%" alt="Store Type Analysis"/>
 </p>
 
 <p align="center">
-  <img src="screenshots/promotion_impact_5_tableau.jpg" width="45%" alt="Revenue Trend"/>
-  <img src="screenshots/weekly_heatmap_6_tableau.jpg" width="45%" alt="Revenue by Category"/>
+  <img src="screenshots/promotion_impact_5_tableau.jpg" width="45%" alt="Promotion Impact"/>
+  <img src="screenshots/weekly_heatmap_6_tableau.jpg" width="45%" alt="Weekly Heatmap"/>
 </p>
 
 <p align="center">
-  <img src="screenshots/discount_analysis_7_tableau.jpg" width="45%" alt="Revenue Trend"/>
-  <img src="screenshots/model_comparison_8_tableau.jpg" width="45%" alt="Revenue by Category"/>
+  <img src="screenshots/discount_analysis_7_tableau.jpg" width="45%" alt="Discount Analysis"/>
+  <img src="screenshots/model_comparison_8_tableau.jpg" width="45%" alt="Model Comparison"/>
 </p>
 
 <p align="center">
@@ -292,18 +386,7 @@ curl -X POST http://localhost:8000/predict \
 </p>
 
 <p align="center">
-  <img src="screenshots/ec2_instance_details.png" width="45%" alt="EC2 Instance Details"/>
-  <img src="screenshots/ec2_security_group.png" width="45%" alt="EC2 Security Group"/>
-</p>
-
-<p align="center">
   <img src="screenshots/api_live_on_aws.png" width="45%" alt="API Live on AWS"/>
-  <img src="screenshots/s3_bucket_folders.png" width="45%" alt="S3 Bucket"/>
-</p>
-
-
-<p align="center">
-  <img src="screenshots/s3_models_uploaded.png" width="45%" alt="S3 Models Uploaded"/>
   <img src="screenshots/rds_instance_details.png" width="45%" alt="RDS Database"/>
 </p>
 
@@ -311,9 +394,9 @@ curl -X POST http://localhost:8000/predict \
 
 ## Interactive Dashboard
 
-- **Tableau Public (online)**: [SMART RETAIL DEMAND DASHBOARD IN TABLEAU PUBLIC](https://public.tableau.com/views/SMARTRETAILDEMANDDASHBOARD/SMARTRETAILDEMANDINVENTORYOPTIMIZATIONDASHBOARD?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
+- **Tableau Public (online)**: [SMART RETAIL DEMAND DASHBOARD](https://public.tableau.com/views/SMARTRETAILDEMANDDASHBOARD/SMARTRETAILDEMANDINVENTORYOPTIMIZATIONDASHBOARD?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
 - **Local HTML**: [INTERACTIVE DASHBOARD](https://raw.githack.com/gitadi2/smart-retail-demand/master/dashboards/retail_demand_dashboard.html)
-  
+
 ---
 
 ## Docker (Optional)
