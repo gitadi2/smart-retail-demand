@@ -53,6 +53,13 @@ def generate_demand(
         size=n_products,
     )
     product_cat = dict(zip(products, categories))
+    # Category-level demand multipliers: in real retail, category + price are
+    # genuinely informative about a product's demand level. This is exactly why
+    # forecasting a brand-new product from similar existing products works.
+    cat_mult = {
+        "Beverages": 1.45, "Snacks": 1.20, "Produce": 1.10,
+        "Dairy": 1.00, "Frozen": 0.85, "Household": 0.65,
+    }
 
     # Calendar effects
     dow = dates.dayofweek.to_numpy()  # 0=Mon
@@ -92,6 +99,7 @@ def generate_demand(
             mean = (
                 product_base[p]
                 * store_mult[s]
+                * cat_mult[product_cat[p]]
                 * trend
                 * weekly
                 * yearly
